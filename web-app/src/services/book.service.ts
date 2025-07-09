@@ -1,11 +1,24 @@
 import { apiClient } from "@/lib/api-client";
 
+export type BookLanguage = 'english' | 'thai' | 'other';
+export type BookType = 'paper' | 'e-book' | 'both';
+
+export interface CategoryReference {
+  _id: string;
+  name: string;
+  slug: string;
+}
+
 export interface Book {
   _id: string;
   title: string;
-  author: string;
-  description?: string;
+  authors: string[];
   coverImage?: string;
+  category: CategoryReference | string; // Can be either the full category object or just the ID
+  tags: string[];
+  language: BookLanguage;
+  type: BookType;
+  description?: string;
   isFavorite: boolean;
   createdAt: string;
   updatedAt: string;

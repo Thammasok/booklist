@@ -5,6 +5,7 @@ import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import { specs } from './config/swagger';
 import userRoutes from './routes/userRoutes';
+import categoryRoutes from './routes/category.routes';
 
 // Load environment variables
 dotenv.config();
@@ -30,6 +31,7 @@ app.use('/api-docs',
 
 // API Routes
 app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/categories', categoryRoutes);
 
 // Error handling middleware
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {

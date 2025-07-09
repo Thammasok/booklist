@@ -3,50 +3,58 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
-import { BookForm } from "./book-form";
-import { bookService } from "@/services/book.service";
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
+import { BookForm, type BookFormValues } from "./book-form";
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogDescription, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogTrigger 
 } from "@/components/ui/dialog";
+import { bookService, type Book } from "@/services/book.service";
+import { toast } from "sonner";
 
 interface AddBookDialogProps {
   children: React.ReactNode;
+  onOpenChange?: (open: boolean) => void;
 }
 
-export function AddBookDialog({ children }: AddBookDialogProps) {
+export function AddBookDialog({ children, onOpenChange = () => {} }: AddBookDialogProps) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: bookService.createBook,
+    mutationFn: async (data: BookFormValues) => {
+      // Transform form data to match the Book type
+      const bookData = {
+        title: data.title,
+        authors: data.authors,
+        coverImage: data.coverImage || undefined,
+        category: data.category, // This is the category ID
+        tags: data.tags,
+        language: data.language,
+        type: data.type,
+        description: data.description,
+        isFavorite: data.isFavorite,
+      } as const;
+      return bookService.createBook(bookData);
+    },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["books"] });
-      toast.success("Book created successfully");
+      toast.success('Book added successfully');
+      queryClient.invalidateQueries({ queryKey: ['books'] });
       setOpen(false);
+      onOpenChange(false);
       router.refresh();
     },
-    onError: (error) => {
-      console.error("Error creating book:", error);
-      toast.error("Failed to create book. Please try again.");
+    onError: (error: any) => {
+      console.error('Error adding book:', error);
+      toast.error(error.message || 'Failed to add book');
     },
   });
 
-  const handleSubmit = (data: { 
-    title: string; 
-    author: string; 
-    description?: string; 
-    coverImage?: string; 
-    isFavorite: boolean 
-  }) => {
+  const handleSubmit = (data: BookFormValues) => {
     mutate(data);
   };
 
