@@ -52,20 +52,189 @@ This is the backend service for the Booklist application, built with Node.js, Ty
 
 ```
 src/
-└── app.ts          # Express app configuration and server entry point
+├── app.ts                 # Express app configuration and server entry point
+├── config/                # Configuration files
+│   └── db.ts              # Database connection setup
+├── controllers/           # Route controllers
+│   ├── authController.ts  # Authentication logic
+│   └── userController.ts  # User management logic
+├── middleware/            # Custom middleware
+│   └── auth.ts            # Authentication middleware
+├── models/                # Database models
+│   └── User.ts            # User model and interfaces
+├── routes/                # API routes
+│   └── userRoutes.ts      # User-related routes
+├── services/              # Business logic services
+│   └── emailService.ts    # Email sending functionality
+└── types/                 # TypeScript type definitions
+    └── express/           # Extended Express types
 ```
 
-Note: The current implementation uses a single `app.ts` file for both Express configuration and server startup. The directory structure shows potential locations for future expansion.
+## Authentication Flow
+
+1. **Registration**
+   - User provides email, username, and password
+   - System creates a new user with `isVerified: false`
+   - Verification email is sent with a time-limited token
+
+2. **Email Verification**
+   - User clicks verification link in email
+   - System verifies token and updates user to `isVerified: true`
+
+3. **Login**
+   - User provides email and password
+   - System verifies credentials and returns JWT token
+   - Subsequent requests include token in `Authorization: Bearer <token>` header
+
+4. **Account Recovery**
+   - User requests password reset
+   - System sends email with reset link
+   - User sets new password using the link
+
+5. **Account Deletion**
+   - User can soft-delete their account
+   - Account is marked as deleted but retained for 30 days
+   - Can be restored within the grace period
 
 ## API Endpoints
 
+### Authentication
+
+#### Register a new user
+```
+POST /api/v1/users/register
+```
+
+**Request Body:**
+```json
+{
+  "username": "testuser",
+  "email": "test@example.com",
+  "password": "password123"
+}
+```
+
+**Response:**
+- Creates a new user with default role 'user'
+- Sends a verification email with a verification link
+- User must verify their email before they can log in
+
+#### Login user
+```
+POST /api/v1/users/login
+```
+
+**Request Body:**
+```json
+{
+  "email": "test@example.com",
+  "password": "password123"
+}
+```
+
+**Responses:**
+- `200` - Successfully logged in
+- `401` - Invalid credentials
+- `403` - Email not verified (includes `requiresVerification: true`)
+- `401` - Account deactivated
+
+#### Verify email
+```
+GET /api/v1/users/verify-email/:token
+```
+
+**Response:**
+- Verifies the user's email using the token sent to their email
+- After verification, user can log in
+
+#### Resend verification email
+```
+POST /api/v1/users/resend-verification
+```
+
+**Request Body:**
+```json
+{
+  "email": "test@example.com"
+}
+```
+
+#### Get current user
+```
+GET /api/v1/users/me
+```
+
+**Headers:**
+```
+Authorization: Bearer <token>
+```
+
+**Response:**
+- Returns the current authenticated user's information
+- Excludes sensitive data like password and verification tokens
+
+#### Delete account (soft delete)
+```
+DELETE /api/v1/users/delete-account
+```
+
+**Headers:**
+```
+Authorization: Bearer <token>
+```
+
+**Response:**
+- Marks the user's account as deleted
+- Account can be restored within 30 days
+- After 30 days, the account will be permanently deleted
+
+#### Restore account
+```
+POST /api/v1/users/restore-account
+```
+
+**Request Body:**
+```json
+{
+  "email": "test@example.com"
+}
+```
+
+**Response:**
+- Restores a soft-deleted account if within the 30-day window
+
+### Health Check
 - `GET /health` - Health check endpoint
 
 ## Environment Variables
 
+### Server Configuration
 - `PORT` - Server port (default: 3100)
-- `NODE_ENV` - Environment (development, production, test)
+- `NODE_ENV` - Application environment (development, production, test)
+
+### Database
 - `MONGODB_URI` - MongoDB connection string
+  - Format: `mongodb://[username:password@]host[:port]/database[?options]`
+  - Example: `mongodb://root:example@localhost:27017/booklist?authSource=admin`
+
+### JWT Authentication
+- `JWT_SECRET` - Secret key for signing JWT tokens
+- `JWT_EXPIRES_IN` - Token expiration time (e.g., '1d', '24h', '7d')
+
+### Email Configuration
+- `SMTP_HOST` - SMTP server hostname (e.g., 'smtp.gmail.com')
+- `SMTP_PORT` - SMTP port (e.g., 587 for TLS, 465 for SSL)
+- `SMTP_SECURE` - Use SSL/TLS (true for port 465, false for others)
+- `SMTP_USER` - SMTP authentication username/email
+- `SMTP_PASS` - SMTP authentication password or app password
+- `EMAIL_FROM_NAME` - Sender name for emails
+- `EMAIL_FROM_ADDRESS` - Sender email address
+- `CLIENT_URL` - Frontend URL for email links
+
+### Timeouts and Limits
+- `EMAIL_VERIFICATION_TTL` - Hours until verification link expires (default: 24)
+- `ACCOUNT_RECOVERY_TTL` - Hours until password reset link expires (default: 1)
+- `ACCOUNT_DELETION_GRACE_DAYS` - Days before permanently deleting soft-deleted accounts (default: 30)
 
 ## Development
 
