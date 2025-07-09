@@ -1,4 +1,4 @@
-import { authApi } from '@/services/auth-service';
+import { authApi } from '@/services/auth.service';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 

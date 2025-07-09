@@ -33,7 +33,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar';
-import { authApi, User } from '@/services/auth-service';
+import { authApi, User } from '@/services/auth.service';
 
 export function NavUser() {
   const { isMobile } = useSidebar();
@@ -47,7 +47,7 @@ export function NavUser() {
   
   const handleLogout = async () => {
     try {
-      await authApi.logout();
+      authApi.logout();
       window.location.href = '/login';
     } catch (error) {
       console.error('Logout failed:', error);
