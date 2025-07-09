@@ -42,7 +42,7 @@ export const useAuthStore = create<AuthStore>()(
             isAuthenticated: true, 
             isLoading: false 
           });
-          window.location.href = '/dashboard';
+          window.location.href = '/overview';
         } catch (error: any) {
           set({ 
             error: error.response?.data?.message || 'Login failed. Please try again.',
@@ -65,14 +65,36 @@ export const useAuthStore = create<AuthStore>()(
         }
       },
       
-      logout: () => {
-        localStorage.removeItem('token');
-        set({ 
-          user: null, 
-          token: null, 
-          isAuthenticated: false 
-        });
-        window.location.href = '/login';
+      logout: async () => {
+        try {
+          // Clear all local storage items
+          localStorage.clear();
+          
+          // Clear session storage as well
+          sessionStorage.clear();
+          
+          // Clear all cookies
+          document.cookie.split(';').forEach(cookie => {
+            const [name] = cookie.split('=');
+            document.cookie = `${name}=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
+          });
+          
+          // Reset the store state
+          set({ 
+            user: null, 
+            token: null, 
+            isAuthenticated: false,
+            isLoading: false,
+            error: null
+          });
+          
+          // Redirect to login page with a full page reload to ensure all state is cleared
+          window.location.href = '/login';
+        } catch (error) {
+          console.error('Error during logout:', error);
+          // If there's an error, still try to redirect to login
+          window.location.href = '/login';
+        }
       },
       
       clearError: () => set({ error: null }),
