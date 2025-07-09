@@ -1,15 +1,101 @@
 # Booklist Web Application
 
-A modern, responsive web application built with Next.js for managing and organizing your book collection.
+A modern, responsive web application built with Next.js 13+ (App Router), TypeScript, and React for managing and organizing your personal book collection. This is the frontend part of the Booklist application that connects to the Booklist backend service.
 
 ## 🚀 Features
 
-- 📚 Book management (add, edit, delete)
-- 🔍 Search and filter functionality
-- 🎨 Clean, modern UI with dark/light mode support
-- ⚡ Fast and responsive design
-- 🔄 Real-time updates with React Query
-- 📱 Mobile-friendly interface
+- **📚 Book Management**: Add, edit, and organize your book collection
+- **🏷️ Category System**: Categorize books with a flexible category system
+- **🔐 Authentication**: Secure signup and login with JWT
+- **🎨 Modern UI**: Built with shadcn/ui for a beautiful, accessible interface
+- **🌓 Dark Mode**: Built-in dark/light theme support
+- **⚡ Performance**: Optimized for fast loading and smooth interactions
+- **🔍 Advanced Search**: Find books by title, author, or category
+- **📱 Responsive**: Works on all device sizes
+- **📊 Dashboard**: Overview of your reading habits and collection stats
+## 📁 Project Structure
+
+```
+web-app/
+├── src/
+│   ├── app/                # App router pages and layouts
+│   │   ├── (auth)/         # Authentication pages
+│   │   ├── (main)/         # Main application pages
+│   │   └── api/            # API routes
+│   ├── components/         # Reusable components
+│   │   ├── books/         # Book-related components
+│   │   ├── ui/            # UI components
+│   │   └── layout/        # Layout components
+│   ├── lib/               # Utility functions
+│   ├── services/          # API service clients
+│   ├── stores/            # State management
+│   └── styles/            # Global styles
+├── public/               # Static assets
+├── .env.local.example    # Example environment variables
+└── package.json          # Dependencies and scripts
+```
+
+## 🛠️ Prerequisites
+
+- Node.js (v18 or later)
+- npm or yarn
+- Booklist backend service running (see main README for setup)
+
+## 🚀 Getting Started
+
+1. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+2. **Set up environment variables**
+   ```bash
+   cp .env.local.example .env.local
+   # Update the .env.local file with your configuration
+   ```
+
+3. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+
+4. **Open the application**
+   - http://localhost:3000
+
+## 📚 Available Scripts
+
+- `npm run dev` - Start the development server
+- `npm run build` - Build for production
+- `npm start` - Start the production server
+- `npm run lint` - Run ESLint
+- `npm run format` - Format code with Prettier
+
+## 🎨 Styling
+
+This project uses:
+- **Tailwind CSS** for utility-first styling
+- **CSS Modules** for component-scoped styles
+- **shadcn/ui** for accessible components
+
+## 🔄 State Management
+
+- **React Query** for server state management
+- **Zustand** for client state management
+- **React Hook Form** for form state and validation
+
+## 🤝 Contributing
+
+Please read [CONTRIBUTING.md](../CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](../LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Built with Next.js and React
+- UI components by shadcn/ui
+- Icons by Lucide React
 
 ## 🛠️ Tech Stack
 
@@ -83,23 +169,3 @@ yarn build
 # or
 pnpm build
 ```
-
-## 📦 Deployment
-
-This application can be deployed to any platform that supports Next.js applications. The easiest way to deploy is using Vercel:
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fyourusername%2Fbooklist)
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 📞 Contact
-
-Your Name - [@yourtwitter](https://twitter.com/yourtwitter) - your.email@example.com
-
-Project Link: [https://github.com/yourusername/booklist](https://github.com/yourusername/booklist)

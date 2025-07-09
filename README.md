@@ -1,53 +1,82 @@
 # Booklist Application
 
-This project is a full-stack application with a Node.js/TypeScript backend service and MongoDB database, all containerized with Docker Compose.
+A modern, full-stack book tracking application that helps you organize and manage your personal library. Built with a React/Next.js frontend and a Node.js/TypeScript backend with MongoDB.
 
-## Project Structure
+## 🚀 Features
+
+- **Book Management**: Add, edit, and organize your book collection
+- **Category System**: Categorize books with a flexible category system
+- **User Authentication**: Secure signup and login with JWT
+- **Responsive Design**: Works on desktop and mobile devices
+- **Modern UI**: Built with shadcn/ui for a beautiful, accessible interface
+
+## 📁 Project Structure
 
 ```
 booklist/
-├── Service/                  # Backend service (Node.js/TypeScript/Express)
-│   ├── src/
-│   │   ├── config/          # Configuration files
-│   │   ├── controllers/     # Route controllers
-│   │   ├── models/          # Database models
-│   │   ├── routes/          # API route definitions
-│   │   ├── services/        # Business logic
-│   │   ├── types/           # TypeScript type definitions
-│   │   └── app.ts           # Express app configuration and server entry point
-│   ├── .env                 # Environment variables
-│   ├── package.json         # Node.js dependencies and scripts
-│   └── tsconfig.json        # TypeScript configuration
-└── docker-compose.yml       # Docker Compose configuration
+├── Service/           # Backend service (Node.js/TypeScript/Express)
+│   ├── src/           # Source code
+│   └── ...           
+└── web-app/          # Frontend application (Next.js/React)
+    ├── src/          # Source code
+    └── ...
 ```
 
-## Features
+## 🛠️ Prerequisites
 
-- **Backend Service**:
-  - Built with Node.js, TypeScript, and Express
-  - MongoDB with Mongoose ODM
-  - Environment-based configuration
-  - RESTful API endpoints
-  - Error handling middleware
-  - Request validation
-  - CORS support
+- Node.js (v18 or later)
+- npm or yarn
+- MongoDB (local or Docker)
+- Git
 
-- **Database**:
-  - MongoDB in a Docker container
-  - Persistent data storage with Docker volumes
-  - Secure authentication
-  - Easy to scale
+## 🚀 Getting Started
 
-## ไฟล์ docker-compose.yml
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/booklist.git
+   cd booklist
+   ```
 
-ไฟล์ `docker-compose.yml` ประกอบด้วยส่วนสำคัญดังนี้:
+2. **Set up the backend**
+   ```bash
+   cd Service
+   cp .env.example .env  # Update with your configuration
+   npm install
+   npm run dev
+   ```
 
-```yaml
-version: '3.8'  # ใช้เวอร์ชัน 3.8 ของ Docker Compose
+3. **Set up the frontend**
+   ```bash
+   cd ../web-app
+   cp .env.local.example .env.local  # Update with your configuration
+   npm install
+   npm run dev
+   ```
 
-services:
-  mongodb:
-    image: mongo:latest  # ใช้ MongoDB image เวอร์ชันล่าสุด
+4. **Access the application**
+   - Frontend: http://localhost:3000
+   - Backend API: http://localhost:3100
+   - API Documentation: http://localhost:3100/api-docs
+
+## 📚 Documentation
+
+- [Service Documentation](./Service/README.md) - Backend API documentation
+- [Web App Documentation](./web-app/README.md) - Frontend documentation
+- [API Documentation](http://localhost:3100/api-docs) (after starting the backend)
+
+## 🤝 Contributing
+
+Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Built with Next.js, React, Node.js, and MongoDB
+- UI components provided by shadcn/ui
+- Icons by Lucide React
     container_name: mongodb  # ตั้งชื่อ container ว่า mongodb
     environment:
       MONGO_INITDB_ROOT_USERNAME: root  # ตั้งชื่อผู้ใช้ root

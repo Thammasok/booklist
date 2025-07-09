@@ -1,19 +1,107 @@
 # Booklist Backend Service
 
-This is the backend service for the Booklist application, built with Node.js, TypeScript, Express, and MongoDB.
+This is the backend service for the Booklist application, built with Node.js, TypeScript, Express, and MongoDB. It provides a RESTful API for the Booklist web application.
 
-## Features
+## 🚀 Features
 
-- TypeScript for type safety
-- Express.js web framework
-- MongoDB with Mongoose ODM
-- Environment configuration
-- Basic error handling
-- CORS enabled
-- Interactive API documentation with Swagger UI
-- JWT Authentication
-- Email verification
-- Account management (soft delete, restore)
+- **Modern Stack**: Built with Node.js, TypeScript, and Express
+- **Database**: MongoDB with Mongoose ODM
+- **Authentication**: JWT-based authentication system
+- **API Documentation**: Interactive Swagger UI
+- **Validation**: Request validation with express-validator
+- **Error Handling**: Comprehensive error handling middleware
+- **Environment Configuration**: Support for different environments (dev, prod)
+- **Type Safety**: Full TypeScript support
+- **Containerized**: Ready for Docker deployment
+
+## 📁 Project Structure
+
+```
+Service/
+├── src/
+│   ├── config/         # Configuration files
+│   ├── controllers/    # Route controllers
+│   ├── middleware/     # Custom middleware
+│   ├── models/         # Database models
+│   ├── routes/         # API route definitions
+│   ├── services/       # Business logic
+│   ├── types/          # TypeScript type definitions
+│   ├── utils/          # Utility functions
+│   ├── app.ts          # Express app configuration
+│   └── server.ts       # Server entry point
+├── .env.example       # Example environment variables
+├── package.json       # Dependencies and scripts
+└── tsconfig.json      # TypeScript configuration
+```
+
+## 🛠️ Prerequisites
+
+- Node.js (v18 or later)
+- MongoDB (local or remote)
+- npm or yarn
+
+## 🚀 Getting Started
+
+1. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+2. **Set up environment variables**
+   ```bash
+   cp .env.example .env
+   # Update the .env file with your configuration
+   ```
+
+3. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+
+4. **Access the API**
+   - API Base URL: http://localhost:3100
+   - API Documentation: http://localhost:3100/api-docs
+
+## 📚 API Documentation
+
+Interactive API documentation is available at `/api-docs` when the server is running. It includes:
+
+- All available endpoints
+- Request/response schemas
+- Example requests
+- Authentication requirements
+
+## 🔒 Authentication
+
+The API uses JWT for authentication. Include the token in the `Authorization` header:
+
+```
+Authorization: Bearer <your_jwt_token>
+```
+
+## 🧪 Testing
+
+Run tests with:
+
+```bash
+npm test
+```
+
+## 🐳 Docker
+
+Build and run with Docker:
+
+```bash
+docker-compose up -d
+```
+
+## 🤝 Contributing
+
+Please read [CONTRIBUTING.md](../CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](../LICENSE) file for details.
 
 ## Prerequisites
 
