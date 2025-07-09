@@ -12,7 +12,52 @@ declare global {
   }
 }
 
-// Register a new user
+/**
+ * @swagger
+ * /api/v1/users/register:
+ *   post:
+ *     summary: Register a new user
+ *     tags: [Authentication]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - username
+ *               - email
+ *               - password
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 minLength: 3
+ *                 maxLength: 30
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               password:
+ *                 type: string
+ *                 minLength: 6
+ *     responses:
+ *       201:
+ *         description: User registered successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   $ref: '#/components/schemas/User'
+ *       400:
+ *         description: Bad request (e.g., user already exists)
+ *       500:
+ *         description: Internal server error
+ */
 export const register = async (req: Request, res: Response) => {
   try {
     const { username, email, password } = req.body;
@@ -67,7 +112,42 @@ export const register = async (req: Request, res: Response) => {
   }
 };
 
-// Verify user email
+/**
+ * @swagger
+ * /api/v1/users/verify-email/{token}:
+ *   get:
+ *     summary: Verify user email
+ *     tags: [Authentication]
+ *     parameters:
+ *       - in: path
+ *         name: token
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The email verification token
+ *     responses:
+ *       200:
+ *         description: Email verified successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Email verified successfully
+ *       400:
+ *         $ref: '#/components/responses/BadRequest'
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ */
 export const verifyEmail = async (req: Request, res: Response) => {
   try {
     const { token } = req.params;
@@ -110,7 +190,48 @@ export const verifyEmail = async (req: Request, res: Response) => {
   }
 };
 
-// Resend verification email
+/**
+ * @swagger
+ * /api/v1/users/resend-verification:
+ *   post:
+ *     summary: Resend verification email
+ *     tags: [Authentication]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 description: The email address to resend verification to
+ *     responses:
+ *       200:
+ *         description: Verification email sent successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Verification email sent
+ *       400:
+ *         $ref: '#/components/responses/BadRequest'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ *       429:
+ *         description: Too many requests. Please wait before requesting another verification email.
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ */
 export const resendVerificationEmail = async (req: Request, res: Response) => {
   try {
     const { email } = req.body;
@@ -151,7 +272,33 @@ export const resendVerificationEmail = async (req: Request, res: Response) => {
   }
 };
 
-// Soft delete user account
+/**
+ * @swagger
+ * /api/v1/users/delete-account:
+ *   delete:
+ *     summary: Soft delete user account
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Account scheduled for deletion
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Account scheduled for deletion. You can restore it within 30 days.
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ */
 export const deleteAccount = async (req: Request, res: Response) => {
   try {
     const userId = (req as any).user.id;
@@ -183,7 +330,56 @@ export const deleteAccount = async (req: Request, res: Response) => {
   }
 };
 
-// Restore soft-deleted account
+/**
+ * @swagger
+ * /api/v1/users/restore-account:
+ *   post:
+ *     summary: Restore a soft-deleted account
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               password:
+ *                 type: string
+ *                 format: password
+ *     responses:
+ *       200:
+ *         description: Account restored successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Account restored successfully
+ *                 token:
+ *                   type: string
+ *                   description: JWT token for the restored account
+ *       400:
+ *         $ref: '#/components/responses/BadRequest'
+ *       401:
+ *         description: Invalid credentials or account cannot be restored
+ *       404:
+ *         description: No deleted account found with this email
+ *       410:
+ *         description: Account cannot be restored as it was permanently deleted
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ */
 export const restoreAccount = async (req: Request, res: Response) => {
   try {
     const { email } = req.body;

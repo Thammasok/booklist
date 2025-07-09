@@ -2,6 +2,62 @@ import mongoose, { Document, Schema, Model } from 'mongoose';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       properties:
+ *         _id:
+ *           type: string
+ *           description: The auto-generated ID of the user
+ *         username:
+ *           type: string
+ *           minLength: 3
+ *           maxLength: 30
+ *           description: The username of the user
+ *         email:
+ *           type: string
+ *           format: email
+ *           description: The email of the user
+ *         role:
+ *           type: string
+ *           enum: [user, admin]
+ *           default: user
+ *           description: The role of the user
+ *         isVerified:
+ *           type: boolean
+ *           default: false
+ *           description: Whether the user's email has been verified
+ *         isDeleted:
+ *           type: boolean
+ *           default: false
+ *           description: Whether the user account has been soft deleted
+ *         deletedAt:
+ *           type: string
+ *           format: date-time
+ *           nullable: true
+ *           description: When the user account was soft deleted
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           description: When the user was created
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           description: When the user was last updated
+ *       required:
+ *         - username
+ *         - email
+ *         - password
+ *         - role
+ *         - isVerified
+ *         - isDeleted
+ *         - createdAt
+ *         - updatedAt
+ */
+
 // User role type
 type UserRole = 'user' | 'admin';
 

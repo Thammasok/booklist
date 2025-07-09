@@ -2,6 +2,8 @@ import express, { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import swaggerUi from 'swagger-ui-express';
+import { specs } from './config/swagger';
 import userRoutes from './routes/userRoutes';
 
 // Load environment variables
@@ -19,6 +21,12 @@ app.use(express.json());
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok', message: 'Service is running' });
 });
+
+// API Documentation
+app.use('/api-docs', 
+  swaggerUi.serve, 
+  swaggerUi.setup(specs, { explorer: true })
+);
 
 // API Routes
 app.use('/api/v1/users', userRoutes);

@@ -10,6 +10,10 @@ This is the backend service for the Booklist application, built with Node.js, Ty
 - Environment configuration
 - Basic error handling
 - CORS enabled
+- Interactive API documentation with Swagger UI
+- JWT Authentication
+- Email verification
+- Account management (soft delete, restore)
 
 ## Prerequisites
 
@@ -17,6 +21,105 @@ This is the backend service for the Booklist application, built with Node.js, Ty
 - npm or yarn
 - MongoDB (local or remote instance)
 - Docker (optional, for containerized MongoDB)
+
+## API Documentation
+
+### Interactive API Documentation with Swagger UI
+
+The application includes an interactive API documentation system built with Swagger UI, which provides a web interface to:
+
+- 📚 View all available API endpoints with detailed descriptions
+- 🔍 Test API calls directly from your browser
+- 📝 View request/response schemas and examples
+- 🔐 Understand authentication requirements for each endpoint
+- 📱 See example requests and responses
+
+**Access the Swagger UI at:** [http://localhost:3100/api-docs/](http://localhost:3100/api-docs/)
+
+### Available API Endpoints
+
+#### Authentication
+- `POST /api/v1/users/register` - Register a new user
+- `POST /api/v1/users/login` - Authenticate user and get JWT token
+- `GET /api/v1/users/verify-email/:token` - Verify email address
+- `POST /api/v1/users/resend-verification` - Resend verification email
+
+#### User Management
+- `GET /api/v1/users/me` - Get current user profile
+- `DELETE /api/v1/users/delete-account` - Soft delete user account
+- `POST /api/v1/users/restore-account` - Restore soft-deleted account
+
+### Working with the API
+
+#### Authentication
+Most endpoints require a JWT token for authentication. Include the token in the `Authorization` header:
+```
+Authorization: Bearer your.jwt.token.here
+```
+
+#### Request/Response Format
+- All API responses follow a standard format:
+  ```json
+  {
+    "success": true,
+    "message": "Operation completed successfully",
+    "data": {}
+  }
+  ```
+- Error responses include an error message and appropriate HTTP status code
+
+### OpenAPI Specification
+
+The API follows the OpenAPI 3.0 specification. You can generate the OpenAPI specification file:
+
+```bash
+npm run generate:openapi
+```
+
+This will create an `openapi.json` file in the project root, which can be used to:
+- Generate client SDKs for various languages
+- Import into API testing tools like Postman
+- Generate additional documentation
+
+### Testing the API
+
+You can test the API directly from the Swagger UI by:
+1. Opening [http://localhost:3100/api-docs/](http://localhost:3100/api-docs/)
+2. Clicking on an endpoint
+3. Clicking "Try it out"
+4. Entering any required parameters
+5. Clicking "Execute"
+
+### Example API Requests
+
+#### Register a New User
+```http
+POST /api/v1/users/register
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "email": "test@example.com",
+  "password": "password123"
+}
+```
+
+#### Login
+```http
+POST /api/v1/users/login
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "password123"
+}
+```
+
+#### Get Current User (Authenticated)
+```http
+GET /api/v1/users/me
+Authorization: Bearer your.jwt.token.here
+```
 
 ## Getting Started
 

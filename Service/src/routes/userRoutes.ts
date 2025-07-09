@@ -9,6 +9,18 @@ import {
 } from '../controllers/authController';
 import { protect } from '../middleware/auth';
 
+/**
+ * @swagger
+ * tags:
+ *   name: Authentication
+ *   description: User authentication and authorization
+ * 
+ * @swagger
+ * tags:
+ *   name: Users
+ *   description: User management
+ */
+
 const router = Router();
 
 // Public routes

@@ -2,6 +2,44 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { User, IUserDocument } from '../models/User';
 
+/**
+ * @swagger
+ * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ *       description: Use the JWT token for authentication
+ *   responses:
+ *     UnauthorizedError:
+ *       description: Access token is missing or invalid
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               success:
+ *                 type: boolean
+ *                 example: false
+ *               message:
+ *                 type: string
+ *                 example: Not authorized to access this route
+ *     ForbiddenError:
+ *       description: User doesn't have permission to access this resource
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               success:
+ *                 type: boolean
+ *                 example: false
+ *               message:
+ *                 type: string
+ *                 example: User role is not authorized to access this route
+ */
+
 // Extend the Express Request interface to include the user property
 declare global {
   namespace Express {

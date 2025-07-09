@@ -74,9 +74,57 @@ export const register = async (req: Request, res: Response) => {
   }
 };
 
-// @desc    Authenticate user & get token
-// @route   POST /api/v1/users/login
-// @access  Public
+/**
+ * @swagger
+ * /api/v1/users/login:
+ *   post:
+ *     summary: Authenticate user and get token
+ *     description: Authenticates a user with email and password, returning a JWT token
+ *     tags: [Authentication]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 example: user@example.com
+ *               password:
+ *                 type: string
+ *                 format: password
+ *                 minLength: 6
+ *                 example: password123
+ *     responses:
+ *       200:
+ *         description: Successfully authenticated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 token:
+ *                   type: string
+ *                   description: JWT token for authenticated requests
+ *                 user:
+ *                   $ref: '#/components/schemas/User'
+ *       400:
+ *         $ref: '#/components/responses/BadRequest'
+ *       401:
+ *         description: Invalid email or password
+ *       403:
+ *         description: Email not verified
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ */
 export const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
@@ -144,9 +192,35 @@ export const login = async (req: Request, res: Response) => {
   }
 };
 
-// @desc    Get current logged in user
-// @route   GET /api/v1/users/me
-// @access  Private
+/**
+ * @swagger
+ * /api/v1/users/me:
+ *   get:
+ *     summary: Get current user profile
+ *     description: Returns the profile of the currently authenticated user
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: User profile retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   $ref: '#/components/schemas/User'
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       404:
+ *         description: User not found
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ */
 export const getMe = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
