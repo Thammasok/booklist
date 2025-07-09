@@ -10,7 +10,7 @@ This directory contains Bruno collection files for testing and documenting the B
 ## Getting Started
 
 1. Open Bruno
-2. Click on "Import" and select the `Booklist` folder from this directory
+2. Click on "Import" and select the `Booklist` folder from the `api-docs` directory
 3. The collection will be imported with all the API endpoints
 
 ## Environment Setup
