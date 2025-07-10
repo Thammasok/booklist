@@ -14,7 +14,7 @@ A modern, full-stack book tracking application that helps you organize and manag
 
 ```
 booklist/
-├── Service/           # Backend service (Node.js/TypeScript/Express)
+├── service/           # Backend service (Node.js/TypeScript/Express)
 │   ├── src/           # Source code
 │   └── ...           
 └── web-app/          # Frontend application (Next.js/React)
@@ -39,7 +39,7 @@ booklist/
 
 2. **Set up the backend**
    ```bash
-   cd Service
+   cd service
    cp .env.example .env  # Update with your configuration
    npm install
    npm run dev
@@ -60,7 +60,7 @@ booklist/
 
 ## 📚 Documentation
 
-- [Service Documentation](./Service/README.md) - Backend API documentation
+- [Service Documentation](./service/README.md) - Backend API documentation
 - [Web App Documentation](./web-app/README.md) - Frontend documentation
 - [API Documentation](http://localhost:3100/api-docs) (after starting the backend)
 
@@ -103,7 +103,7 @@ volumes:
 
 2. **ตั้งค่า Backend Service**:
    ```bash
-   cd Service
+   cd service
    npm install
    cp .env.example .env  # สร้างไฟล์ .env จากตัวอย่าง
    ```
@@ -139,17 +139,17 @@ volumes:
 ## การพัฒนาต่อยอด
 
 ### เพิ่ม Model ใหม่
-1. สร้างไฟล์ใหม่ใน `Service/src/models/`
+1. สร้างไฟล์ใหม่ใน `service/src/models/`
 2. กำหนด Schema ด้วย Mongoose
-3. สร้าง TypeScript interfaces ใน `Service/src/types/`
+3. สร้าง TypeScript interfaces ใน `service/src/types/`
 
 ### เพิ่ม Route ใหม่
-1. สร้างไฟล์ใหม่ใน `Service/src/routes/`
+1. สร้างไฟล์ใหม่ใน `service/src/routes/`
 2. กำหนด routes และผูกกับ controller
 3. นำเข้า routes ใน `app.ts`
 
 ### เพิ่ม Controller ใหม่
-1. สร้างไฟล์ใหม่ใน `Service/src/controllers/`
+1. สร้างไฟล์ใหม่ใน `service/src/controllers/`
 2. กำหนดฟังก์ชันสำหรับจัดการ request/response
 3. เชื่อมต่อกับ service layer
 

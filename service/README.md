@@ -17,7 +17,7 @@ This is the backend service for the Booklist application, built with Node.js, Ty
 ## 📁 Project Structure
 
 ```
-Service/
+service/
 ├── src/
 │   ├── config/         # Configuration files
 │   ├── controllers/    # Route controllers
@@ -94,14 +94,6 @@ Build and run with Docker:
 ```bash
 docker-compose up -d
 ```
-
-## 🤝 Contributing
-
-Please read [CONTRIBUTING.md](../CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](../LICENSE) file for details.
 
 ## Prerequisites
 
