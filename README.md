@@ -188,11 +188,11 @@ For production use, consider additional security measures:
 - Built with Next.js, React, Node.js, and MongoDB
 - UI components provided by shadcn/ui
 - Icons by Lucide React
-  - ใช้ environment variables สำหรับข้อมูลลับ
-  - ใช้ rate limiting
-  - ใช้ helmet สำหรับการรักษาความปลอดภัยของ HTTP headers
-  - ใช้ JWT สำหรับการยืนยันตัวตน
+- Use environment variables for sensitive data
+- Implement rate limiting
+- Use helmet for HTTP header security
+- Use JWT for authentication
 
-### การปรับขนาด
+### Scaling
 - สามารถ scale บริการได้โดยการเพิ่ม instances ของ backend service
 - ใช้ MongoDB replica set สำหรับการใช้งานจริงที่มีความพร้อมใช้งานสูง
