@@ -64,14 +64,6 @@ booklist/
 - [Web App Documentation](./web-app/README.md) - Frontend documentation
 - [API Documentation](http://localhost:3100/api-docs) (after starting the backend)
 
-## 🤝 Contributing
-
-Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## 🙏 Acknowledgments
 
 - Built with Next.js, React, Node.js, and MongoDB
