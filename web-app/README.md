@@ -120,7 +120,7 @@ This project is licensed under the MIT License - see the [LICENSE](../LICENSE) f
 
 1. Clone the repository
    ```bash
-   git clone https://github.com/yourusername/booklist.git
+   git clone https://github.com/Thammasok/booklist.git
    cd booklist/web-app
    ```
 
